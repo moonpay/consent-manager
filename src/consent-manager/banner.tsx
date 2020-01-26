@@ -1,8 +1,8 @@
 import React, { PureComponent } from 'react'
-import styled from 'react-emotion'
+import styled from '@emotion/styled'
 import fontStyles from './font-styles'
 
-const Root = styled<{ backgroundColor: string; textColor: string }, 'div'>('div')`
+const Root = styled('div')<{ backgroundColor: string; textColor: string }>`
   ${fontStyles};
   position: relative;
   padding: 8px;
@@ -75,7 +75,7 @@ export default class Banner extends PureComponent<Props> {
     } = this.props
 
     return (
-      <Root innerRef={innerRef} backgroundColor={backgroundColor} textColor={textColor}>
+      <Root ref={innerRef} backgroundColor={backgroundColor} textColor={textColor}>
         <Content>
           <P>{content}</P>
           <P>

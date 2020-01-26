@@ -1,6 +1,8 @@
 import React, { PureComponent } from 'react'
+import Div100vh from '@moonpay/react-div-100vh'
 import ReactDOM from 'react-dom'
-import styled, { keyframes } from 'react-emotion'
+import styled from '@emotion/styled'
+import { keyframes } from 'emotion'
 import nanoid from 'nanoid'
 import fontStyles from './font-styles'
 
@@ -31,12 +33,11 @@ const openAnimation = keyframes`
   }
 `
 
-const Root = styled<{ width: number | string | undefined }, 'section'>('section')`
+const Root = styled(Div100vh)<{ width: number | string | undefined }>`
   ${fontStyles};
   display: flex;
   flex-direction: column;
   max-width: calc(100vw - 16px);
-  max-height: calc(100vh - 16px);
   width: ${props => props.width};
   margin: 8px;
   background: #fff;
@@ -146,10 +147,12 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
     const dialog = (
       <Overlay onClick={this.handleOverlayClick}>
         <Root
-          innerRef={this.handleRootRef}
-          role="dialog"
-          aria-modal
           aria-labelledby={this.titleId}
+          aria-modal
+          as="section"
+          childRef={this.handleRootRef}
+          role="dialog"
+          style={{ maxHeight: 'calc(100rvh - 16px)' }}
           width={width}
         >
           <Header>
@@ -161,7 +164,7 @@ export default class Dialog extends PureComponent<DialogProps, {}> {
             )}
           </Header>
 
-          <Form innerRef={this.handleFormRef} onSubmit={onSubmit}>
+          <Form ref={this.handleFormRef} onSubmit={onSubmit}>
             <Content>{children}</Content>
 
             <Buttons>{buttons}</Buttons>
