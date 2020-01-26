@@ -67,7 +67,9 @@ export function savePreferences({
 
   cookies.set(COOKIE_KEY, value, {
     expires: COOKIE_EXPIRES,
-    domain
+    domain,
+    sameSite: 'none',
+    secure: true
   })
 
   emitter.emit('preferencesSaved', {
