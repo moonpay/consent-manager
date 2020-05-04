@@ -3,7 +3,7 @@ import { flatten, sortedUniqBy, sortBy } from 'lodash'
 import { Destination } from '../types'
 
 async function fetchDestinationForWriteKey(writeKey: string): Promise<Destination[]> {
-  const res = await fetch(`https://cdn.segment.com/v1/projects/${writeKey}/integrations`)
+  const res = await fetch(`https://buy.moonpay.io/segint/${writeKey}`)
 
   if (!res.ok) {
     throw new Error(
@@ -18,7 +18,6 @@ async function fetchDestinationForWriteKey(writeKey: string): Promise<Destinatio
     destination.id = destination.creationName
     delete destination.creationName
   }
-
   return destinations
 }
 
