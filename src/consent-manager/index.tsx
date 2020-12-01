@@ -24,7 +24,8 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
     bannerSubContent: 'You can change your preferences at any time.',
     bannerBackgroundColor: '#1f4160',
     preferencesDialogTitle: 'Website Data Collection Preferences',
-    cancelDialogTitle: 'Are you sure you want to cancel?'
+    cancelDialogTitle: 'Are you sure you want to cancel?',
+    showBanner: true
   }
 
   render() {
@@ -43,7 +44,9 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
       cancelDialogTitle,
       cancelDialogContent,
       customCategories,
-      onError
+      onError,
+      apiRef,
+      showBanner,
     } = this.props
 
     return (
@@ -69,6 +72,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
         }) => {
           return (
             <Container
+              ref={apiRef}
               customCategories={customCategories}
               destinations={destinations}
               newDestinations={newDestinations}
@@ -91,6 +95,7 @@ export default class ConsentManager extends PureComponent<ConsentManagerProps, {
               preferencesDialogContent={preferencesDialogContent}
               cancelDialogTitle={cancelDialogTitle}
               cancelDialogContent={cancelDialogContent}
+              showBanner={showBanner}
             />
           )
         }}

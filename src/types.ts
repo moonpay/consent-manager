@@ -61,7 +61,14 @@ interface CustomCategory {
   purpose: string
 }
 
+export interface ConsentManagerApi {
+  setPreferences: (newPreferences: CategoryPreferences) => void
+  resetPreferences: () => void
+  saveConsent: (newPreferences?: CategoryPreferences | boolean, shouldReload?: boolean) => void
+}
+
 export interface ConsentManagerProps {
+  apiRef: React.Ref<ConsentManagerApi>
   writeKey: string
   otherWriteKeys?: string[]
   shouldRequireConsent?: () => Promise<boolean> | boolean
@@ -79,4 +86,5 @@ export interface ConsentManagerProps {
   closeBehavior?: CloseBehavior | CloseBehaviorFunction
   initialPreferences?: CategoryPreferences
   customCategories?: CustomCategories
+  showBanner?: boolean
 }
