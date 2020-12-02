@@ -4,7 +4,7 @@ import Banner from './banner'
 import PreferenceDialog from './preference-dialog'
 import CancelDialog from './cancel-dialog'
 import { ADVERTISING_CATEGORIES, FUNCTIONAL_CATEGORIES } from './categories'
-import { Destination, CategoryPreferences, CustomCategories } from '../types'
+import { Destination, CategoryPreferences, CustomCategories, ConsentManagerApi } from '../types'
 
 const emitter = new EventEmitter()
 export function openDialog() {
@@ -40,6 +40,7 @@ interface ContainerProps {
   preferencesDialogContent: React.ReactNode
   cancelDialogTitle: React.ReactNode
   cancelDialogContent: React.ReactNode
+  showBanner?: boolean
 }
 
 function normalizeDestinations(destinations: Destination[]) {
@@ -61,10 +62,16 @@ function normalizeDestinations(destinations: Destination[]) {
   return { marketingDestinations, advertisingDestinations, functionalDestinations }
 }
 
-const Container: React.FC<ContainerProps> = props => {
+const Container: React.FC<ContainerProps> = (props, ref) => {
   const [isDialogOpen, toggleDialog] = React.useState(false)
-  const [showBanner, toggleBanner] = React.useState(true)
+  const [showBanner, toggleBanner] = React.useState(props.showBanner ?? true)
   const [isCancelling, toggleCancel] = React.useState(false)
+
+  React.useImperativeHandle(ref, (): ConsentManagerApi => ({
+    setPreferences: props.setPreferences,
+    resetPreferences: props.resetPreferences,
+    saveConsent: props.saveConsent,
+  }), [props.setPreferences, props.resetPreferences, props.saveConsent]);
 
   let banner = React.useRef<HTMLElement>(null)
   let preferenceDialog = React.useRef<HTMLElement>(null)
@@ -216,4 +223,4 @@ const Container: React.FC<ContainerProps> = props => {
   )
 }
 
-export default Container
+export default React.forwardRef(Container)
